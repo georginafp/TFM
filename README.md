@@ -8,11 +8,13 @@ The following bunch of commands contains the required pieces of code for properl
 
 ## Preamble
 
-*1.* A first file is included, containing the commands needed for preparing the base data. 
+*1.* A file whose contains the commands needed for preparing the base data is included
 
-*2.* A second script is uploaded for preparing the phenotypic data. 
+*2.* A script is uploaded for preparing the phenotypic data in three main groups of traits. 
 
-*3.* and *4.* Then, two more files are included whose hold the code for computing the polygenic risk scores with, and without vallidation arguments. 
+*3.* A file including the code for computing the polygenic risk scores *with* validation arguments and with the base data in chromosome:position (chr:pos) nomenclature
+
+*4.* Script containing the code for computing the polygenic risk scores *without* validation arguments and with the base data in rs (SNP name) nomenclature
 
 *5.* A script is uploaded for presenting the scaling and the plotting procedure applied 
 
@@ -20,7 +22,7 @@ The following bunch of commands contains the required pieces of code for properl
 
 *7.* The code for computing the descriptive analyses is added too. 
 
-*8.* The script for the statistical analyses is included as well. 
+*8.* The script for the statistical analyses (linear regresion models) is also included. 
 
 
 
