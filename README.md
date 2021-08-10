@@ -3,6 +3,9 @@
 The following bunch of commands contains the required pieces of code for properly calculate polygenic risk scores (an estimate of an individual’s genetic liability to a trait or disease, calculated according to their genotype profile and relevant genome-wide association study (GWAS) data), enabling person’s individual risk of developing a particular disease. 
 - In this study we calculated PRSs for 42 common traits in the Human Early Life Exposome *(HELIX)* project. The mentioned project contains data from 1.304 children aged between six and eleven years old, coming from six on-going European cohorts. Then, we tested the effect modification of each PRS on the association between maternal smoking during pregnancy and each common trait so that we could define first, how maternal smoking during pregnancy modifies the mentioned phenotypes, and second, the combined effect. 
 
+- The #wiki# section contains each command with specific comments to better understand each function used for the analyses. 
+
+
 ## Preamble
 
 *1.* A first file is included, containing the commands needed for preparing the base data. 
@@ -22,4 +25,3 @@ The following bunch of commands contains the required pieces of code for properl
 
 
 
-- The wiki section contains each command with specific comments to better understand each function used for the analyses. 
