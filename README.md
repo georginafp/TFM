@@ -9,18 +9,17 @@ The following bunch of commands contains the required pieces of code for properl
 
 *2.* A second script is uploaded for preparing the phenotypic data. 
 
-*3 and 4.* Then, two more files are included whose hold the code for computing the polygenic risk scores with, and without vallidation arguments. 
+*3. and 4.* Then, two more files are included whose hold the code for computing the polygenic risk scores with, and without vallidation arguments. 
 
-*5* A script is uploaded for presenting the scaling and the plotting procedure applied 
+*5.* A script is uploaded for presenting the scaling and the plotting procedure applied 
 
-*6* A file that summarises results and creates matrices is incorporated as well. 
+*6.* A file that summarises results and creates matrices is incorporated as well. 
 
-*7* The code for computing the descriptive analyses is added too. 
+*7.* The code for computing the descriptive analyses is added too. 
 
-*8* The script for the statistical analyses is included as well. 
+*8.* The script for the statistical analyses is included as well. 
 
 
 
 
 - The wiki section contains each command with specific comments to better understand each function used for the analyses. 
-
