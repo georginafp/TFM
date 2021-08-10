@@ -105,9 +105,13 @@ write_tsv(only_eur, "pheno_data_eur.tsv")
 
 
 
+
+
+
 ###################################
 #### protein relate phenotypes ####
 ###################################
+
 
 # Call the needed libraries
 library(minfi)
@@ -129,6 +133,15 @@ colnames(db1)[which(names(db1) == "V1")] <- "LabID"
 write.table(dd1, "db_proteins.txt", row.names=TRUE, col.names=TRUE, quote=F)
 
 # Now, one can proceed with the commands from above
+
+
+
+
+
+
+#################################
+#### neurological phenotypes ####
+#################################
 
 
 # READING CONNER'S DATABASE
