@@ -12,7 +12,7 @@ The following bunch of commands contains the required pieces of code for properl
 
 *2.* A second script is uploaded for preparing the phenotypic data. 
 
-*3. and 4.* Then, two more files are included whose hold the code for computing the polygenic risk scores with, and without vallidation arguments. 
+*3.* and *4.* Then, two more files are included whose hold the code for computing the polygenic risk scores with, and without vallidation arguments. 
 
 *5.* A script is uploaded for presenting the scaling and the plotting procedure applied 
 
