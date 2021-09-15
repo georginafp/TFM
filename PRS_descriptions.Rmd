@@ -1,0 +1,74 @@
+---
+title: "Table2"
+author: "Georgina Fuentes"
+date: "11/8/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## CREATING TABLE. 2
+This table will contain the Pt of the PRS (threshold chosen), the number of SNPs that have been remained after the compilation, the empirical p-value, and the R2 of the full model. 
+Afterwards, the reference GWAS sused to create the PRS will be added as well. 
+
+```{r}
+# Establishing the working directory 
+setwd("D:/Georgina/Documents/Creating_M1")
+
+# Listing all the elements present in the directory 
+fold <- as.factor(list.files())
+
+# Only the folders from the 10 phenotypes are going to be processed
+t <- length(fold) - 10 
+
+# Save its length in a new  variable 
+n <- length(fold)-t
+
+# Create an empty list 
+datalist = list()
+
+# For each elements in the directory, enter to each folder and establish it as the working directory 
+for (i in 1:n){
+  setwd(paste0("D:/Georgina/Documents/Creating_M1", "/", fold[[i]]))  									                  
+  fileNames1 <- list.files(pattern = ".summary")	 		        	# List files with extension = .summary					
+  library(data.table)  
+  dat <- fread(fileNames1)                                      # Read the files 
+  
+
+  threshold <- dat$Threshold		                                # Save the threshold in a new variable threshold          
+  R2 <- dat$Full.R2
+  SE <- dat$Standard.Error
+  SNPs <- dat$Num_SNP
+  pval <- dat$P
+  
+  
+  dat2 <- data.frame(threshold, SNPs, pval, SE, R2)
+  fold1 <- gsub("[^a-zA-Z]", "", fold[i])
+  rownames(dat2) <- fold1
+  
+  datalist[[i]] <- dat2                                       # Save each element in a list (the empty one created above)
+
+}
+
+big_data = do.call(rbind, datalist)                             # join all the elements from the list together 
+
+names(big_data) <- c("Pt", "Num. SNPs", "P-value", "SE", "R2")
+write.table(big_data, "Table2_fromR.csv", sep=",", col.names=FALSE)
+# Exporting without headers 
+
+# Importing it 
+dat <- fread("Table2_fromR.csv", header=F)
+# change the column names 
+
+names(dat) <- c("Phenotype","Threshold (Pt)", "Num. SNPs", "P-value", "SE", "R2")
+
+options(scipen = 999)
+
+library(knitr)
+library(kableExtra)
+library(magrittr)
+
+```
+
