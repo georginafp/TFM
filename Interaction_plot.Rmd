@@ -1,0 +1,137 @@
+---
+title: "Interaction_dose_plot"
+author: "Georgina Fuentes"
+date: "6/9/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Import M5 results and extract only information (columns) regarding two phenotypes of interest: brith weight and systolic blood pressure 
+
+```{r}
+setwd("D:/Georgina/Documents/Creating_M1")
+library(data.table)
+M5 <- fread("M5_results.txt")
+colnames(M5)
+
+M5_bw_sbp <- subset(M5, select=c(3,6,27,30,36))
+M5_bw_sbp$msmok_d <- as.factor(M5_bw_sbp$msmok_d)
+M5_bw_sbp$BW <- as.numeric(M5_bw_sbp$BW)
+str(M5_bw_sbp)
+
+```
+
+# BW plot
+
+```{r}
+
+GPA.Model.2 <- lm(BW~Pt_0.01_BW*msmok_s, M5_bw_sbp)
+summary(GPA.Model.2)
+
+
+IQ.Quantile <- quantile(M5_bw_sbp$Pt_0.01_BW, probs=c(0,.25,.50,.75,1))  
+
+IQ.Quantile <- round(IQ.Quantile, 2)
+IQ.Quantile 
+
+library(effects)
+#Run your interaction
+Inter.Quantile <- effect('Pt_0.01_BW:msmok_s', GPA.Model.2, #effect serà aquí PRS*Smoke
+                                      xlevels=list(Pt_0.01_BW = c(-0.69, 0.00, 0.66), # valors obtinguts dalt
+                                      se=TRUE, confidence.level=.95, typical=mean))
+
+#Put data into data frame
+Inter.Quantile <- as.data.frame(Inter.Quantile)
+
+#Create factors of the different variables in your interaction: 
+
+Inter.Quantile$Pt_0.01_BW<-factor(Inter.Quantile$Pt_0.01_BW,
+                      levels=c(-0.69, 0.00, 0.66),
+                      labels=c("Tertile 1 (25%)", "Tertile 2 (50%)", "Tertile 3 (75%)"))
+                     
+
+Inter.Quantile$msmok_s<-factor(Inter.Quantile$msmok_s, #Això crec que tampoc cal, només si tenim la variable smoke codificada en númeric 
+              levels=c("no", "yes_ns", "yes_s"),
+              labels=c("Non-smokers", "Non-sustained smokers", "Sustained smokers")) # amb això el que fariem seria recodificar a etiquetes pel gràfic.
+
+
+
+library(ggplot2) 
+
+Plot.Quantile<-ggplot(data=Inter.Quantile, aes(x=msmok_s, y=fit, group=Pt_0.01_BW))+
+      geom_line(size=2, aes(color=Pt_0.01_BW))+
+      ylab("Birth Weight")+
+      xlab("Maternal smoking")+
+      labs(color='BW PRS') + 
+      scale_color_manual(values=c("#42c5f4","#54f284","#f45dcc",  
+                             "#ff9d35","#d7afff"))+ #custom color coding 
+      theme_bw()+ #deleting the gray background 
+      theme(text = element_text(size=14, color="black"))+ #changing font!
+      ggtitle("Quantile Plot") #adding a title! 
+
+Plot.Quantile
+
+ggsave("BW_interactionplot_line_25_75.png")
+
+```
+
+
+
+
+# SBP plot
+
+```{r}
+
+GPA.Model.2 <- lm (SBP~Pt_1_SBP*msmok_s, M5_bw_sbp)
+summary(GPA.Model.2)
+
+
+IQ.Quantile <- quantile(M5_bw_sbp$Pt_1_SBP, probs=c(0,.25,.50,.75,1))  
+
+IQ.Quantile <- round(IQ.Quantile, 2)
+IQ.Quantile 
+
+library(effects)
+#Run your interaction
+Inter.Quantile <- effect('Pt_1_SBP:msmok_s', GPA.Model.2, #effect serà aquí PRS*Smoke
+                                      xlevels=list(Pt_1_SBP = c(-0.63, -0.02, 0.66), # valors obtinguts dalt
+                                      se=TRUE, confidence.level=.95, typical=mean))
+
+#Put data into data frame
+Inter.Quantile <- as.data.frame(Inter.Quantile)
+
+#Create factors of the different variables in your interaction: 
+
+Inter.Quantile$Pt_1_SBP<-factor(Inter.Quantile$Pt_1_SBP,
+                      levels=c(-0.63, -0.02, 0.66),
+                      labels=c("Tertile 1 (25%)", "Tertile 2 (50%)", "Tertile 3 (75%)"))
+                     
+
+                     
+Inter.Quantile$msmok_s<-factor(Inter.Quantile$msmok_s, #Això crec que tampoc cal, només si tenim la variable smoke codificada en númeric 
+              levels=c("no", "yes_ns", "yes_s"),
+              labels=c("Non-smokers", "Non-sustained smok", "Sustained smokers")) # amb això el que fariem seria recodificar a etiquetes pel gràfic.
+
+
+
+library(ggplot2) 
+
+Plot.Quantile<-ggplot(data=Inter.Quantile, aes(x=msmok_s, y=fit, group=Pt_1_SBP))+
+      geom_line(size=2, aes(color=Pt_1_SBP))+
+      ylab("Systolic blood pressure")+
+      xlab("Maternal smoking")+
+      labs(color='SBP PRS') + 
+      scale_color_manual(values=c("#42c5f4","#54f284","#f45dcc",  
+                             "#ff9d35","#d7afff"))+ #custom color coding 
+      theme_bw()+ #deleting the gray background 
+      theme(text = element_text(size=14, color="black"))+ #changing font!
+      ggtitle("Quantile Plot") #adding a title! 
+
+Plot.Quantile
+
+ggsave("SBP_interactionplot_lines_25_75.png")
+
+```
